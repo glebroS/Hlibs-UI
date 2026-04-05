@@ -1,0 +1,11 @@
+node_modules/
+conversations/*
+!conversations/.gitkeep
+saved_outputs/*
+!saved_outputs/.gitkeep
+public/uploads/*
+!public/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+.env
+.DS_Store

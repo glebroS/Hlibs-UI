@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hlibs-UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Animated background mesh -->
+<div class="bg-mesh">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+</div>
+
+<div class="hud-container">
+
+    <!-- ═══ LEFT SIDEBAR ════════════════════════════════════════════════════ -->
+    <aside class="sidebar glass neon-border" id="left-sidebar">
+
+        <div class="sidebar-brand">
+            <span class="brand-dot"></span>
+            <span class="brand-text">HLIBS-UI</span>
+        </div>
+
+        <!-- Model Selector -->
+        <div class="model-selector">
+            <label class="field-label">Model</label>
+            <select id="model-select" class="hud-select">
+                <option value="gemma4:e4b" selected>gemma4:e4b</option>
+                <option value="gemma3:4b">gemma3:4b</option>
+                <option value="llama3.2:3b">llama3.2:3b</option>
+                <option value="deepseek-r1:7b">deepseek-r1:7b</option>
+                <option value="mistral:7b">mistral:7b</option>
+            </select>
+        </div>
+
+        <!-- ── SETTINGS ACCORDION ── -->
+
+        <!-- Group 1: Sampling -->
+        <details class="settings-group" open>
+            <summary class="settings-group-header">
+                <span class="group-icon"></span>
+                <span>Sampling</span>
+                <span class="chevron">›</span>
+            </summary>
+            <div class="settings-body">
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="min_p">Min-P</label>
+                        <span class="setting-val" id="min_p_val">0.10</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="min_p" min="0" max="1" step="0.01" value="0.10">
+                    <details class="hint">
+                        <summary>What is Min-P?</summary>
+                        <p>Filters out tokens below a fraction of the top token's probability. <strong>0.05–0.15</strong> = creative & coherent. <strong>0.0</strong> = off. Preferred over Top-P for modern models.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="temp">Temperature</label>
+                        <span class="setting-val" id="temp_val">0.30</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="temp" min="0" max="2" step="0.05" value="0.30">
+                    <details class="hint">
+                        <summary>What is Temperature?</summary>
+                        <p><strong>0.1–0.4</strong> = precise, logical, coding tasks. <strong>0.6–0.9</strong> = balanced conversation. <strong>1.0+</strong> = creative writing, brainstorming.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="rep_pen">Repetition Penalty</label>
+                        <span class="setting-val" id="rep_pen_val">1.10</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="rep_pen" min="1.0" max="1.5" step="0.01" value="1.10">
+                    <details class="hint">
+                        <summary>What is Rep. Penalty?</summary>
+                        <p>Discourages the model from repeating itself. <strong>1.0</strong> = off. <strong>1.1</strong> = light nudge (recommended). <strong>1.3+</strong> = aggressive, may hurt quality.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="top_k">Top-K</label>
+                        <span class="setting-val" id="top_k_val">40</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="top_k" min="0" max="200" step="1" value="40">
+                    <details class="hint">
+                        <summary>What is Top-K?</summary>
+                        <p>Limits sampling to the top K most likely tokens at each step. <strong>0</strong> = disabled. <strong>20–50</strong> = tight & coherent. <strong>100+</strong> = more variety. Works alongside Min-P.</p>
+                    </details>
+                </div>
+
+            </div>
+        </details>
+
+        <!-- Group 2: Context & Output -->
+        <details class="settings-group">
+            <summary class="settings-group-header">
+                <span class="group-icon"></span>
+                <span>Context & Output</span>
+                <span class="chevron">›</span>
+            </summary>
+            <div class="settings-body">
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="ctx">Context Window</label>
+                        <span class="setting-val" id="ctx_val">8192</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="ctx" min="2048" max="32768" step="1024" value="8192">
+                    <details class="hint">
+                        <summary>What is num_ctx?</summary>
+                        <p>Total tokens the model can "see" at once (prompt + response). <strong>4096–8192</strong> = most tasks. <strong>16k–32k</strong> = long docs/code. Higher = more VRAM used.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="max_tokens">Max Output Tokens</label>
+                        <span class="setting-val" id="max_tokens_val">2048</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="max_tokens" min="128" max="8192" step="128" value="2048">
+                    <details class="hint">
+                        <summary>What is num_predict?</summary>
+                        <p>Hard cap on response length. <strong>512</strong> = short answers. <strong>2048</strong> = standard. <strong>4096+</strong> = long code or essays. Use <strong>-1</strong> for unlimited (set slider max).</p>
+                    </details>
+                </div>
+
+            </div>
+        </details>
+
+        <!-- Group 3: Advanced -->
+        <details class="settings-group">
+            <summary class="settings-group-header">
+                <span class="group-icon"></span>
+                <span>Advanced</span>
+                <span class="chevron">›</span>
+            </summary>
+            <div class="settings-body">
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="mirostat">Mirostat</label>
+                        <span class="setting-val" id="mirostat_val">OFF</span>
+                    </div>
+                    <div class="segmented-ctrl" id="mirostat-ctrl">
+                        <button class="seg-btn active" data-val="0">OFF</button>
+                        <button class="seg-btn" data-val="1">v1</button>
+                        <button class="seg-btn" data-val="2">v2</button>
+                    </div>
+                    <details class="hint">
+                        <summary>What is Mirostat?</summary>
+                        <p>Adaptive sampling algorithm that maintains a target perplexity (τ). <strong>OFF</strong> = use Min-P+Temp. <strong>v2</strong> = best for long coherent generations. Overrides Top-K/Min-P when on.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item" id="miro-tau-group" style="opacity:0.3;pointer-events:none;">
+                    <div class="setting-row">
+                        <label class="field-label" for="miro_tau">Mirostat τ (Tau)</label>
+                        <span class="setting-val" id="miro_tau_val">5.0</span>
+                    </div>
+                    <input type="range" class="hud-slider" id="miro_tau" min="1" max="10" step="0.1" value="5.0">
+                    <details class="hint">
+                        <summary>What is Tau?</summary>
+                        <p>Target perplexity. <strong>3–5</strong> = focused. <strong>7–10</strong> = creative. Only active when Mirostat is ON.</p>
+                    </details>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-row">
+                        <label class="field-label" for="seed">Seed</label>
+                        <span class="setting-val" id="seed_val">Random</span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+                        <input type="number" class="hud-input" id="seed" placeholder="e.g. 42" min="0">
+                        <button class="icon-btn" id="seed-random-btn" title="Use random seed">🎲</button>
+                    </div>
+                    <details class="hint">
+                        <summary>What is Seed?</summary>
+                        <p>Fix a seed to get <strong>reproducible</strong> outputs for the same prompt+settings. Leave blank for random. Useful for debugging or exact comparisons.</p>
+                    </details>
+                </div>
+
+            </div>
+        </details>
+
+        <!-- Group 4: Reasoning & Identity -->
+        <details class="settings-group">
+            <summary class="settings-group-header">
+                <span class="group-icon"></span>
+                <span>Reasoning & Persona</span>
+                <span class="chevron">›</span>
+            </summary>
+            <div class="settings-body">
+
+                <div class="setting-item toggle-item">
+                    <label class="field-label">Force Think Tags</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="force_think">
+                        <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                    </label>
+                </div>
+                <details class="hint" style="margin-top:-4px;">
+                    <summary>What does this do?</summary>
+                    <p>Injects a system instruction telling the model to wrap its internal reasoning in <code>&lt;think&gt;</code> tags before answering. Reveals the model's "chain of thought" in a collapsible panel.</p>
+                </details>
+
+                <div class="setting-item" style="margin-top:12px;">
+                    <label class="field-label" for="system-prompt">Custom System Prompt</label>
+                    <textarea id="system-prompt" class="hud-textarea" placeholder="e.g. You are an expert Python developer. Always explain your code."></textarea>
+                    <details class="hint">
+                        <summary>What is a system prompt?</summary>
+                        <p>Sets the model's persona and behavior for the entire conversation. Takes priority over Force Think if both are set. Leave blank for default behavior.</p>
+                    </details>
+                </div>
+
+            </div>
+        </details>
+
+        <button id="new-chat-btn" class="outline-btn">＋ New Conversation</button>
+
+        <!-- Conversation History -->
+        <div class="conv-section">
+            <div class="conv-section-header">
+                <span>History</span>
+                <button id="clear-all-btn" class="tiny-btn" title="Delete all conversations">Clear all</button>
+            </div>
+            <div class="conv-list" id="conv-list"></div>
+        </div>
+
+    </aside>
+
+    <!-- ═══ MAIN CHAT ═════════════════════════════════════════════════════════ -->
+    <main class="main-chat glass neon-border">
+        <div class="chat-header">
+            <div class="conv-title-wrap">
+                <span class="status-dot" id="status-dot"></span>
+                <span class="conv-title" id="conv-title">New Conversation</span>
+            </div>
+            <button id="save-chat-btn" class="icon-text-btn">💾 Export</button>
+        </div>
+
+        <div class="chat-history" id="chat-history">
+            <div class="message assistant-msg welcome-msg">
+                <div class="msg-meta">SYSTEM</div>
+                HUD initialized. Connected to <strong>Ollama</strong> on localhost:11434.<br>
+                Select a model and start your conversation.
+            </div>
+        </div>
+
+        <div class="input-area glass">
+            <div id="attachments-preview" class="attachments-preview"></div>
+            <div class="input-row">
+                <button id="upload-btn" class="icon-btn" title="Upload Image" style="background: none; border: none; color: var(--text-muted); cursor: pointer;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                </button>
+                <input type="file" id="file-upload" accept="image/*" style="display: none;">
+                <textarea id="user-input"
+                    placeholder="Ask anything… (Enter to send · Shift+Enter for newline)"
+                    autofocus
+                    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+                <button id="send-btn" onclick="sendMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ═══ RIGHT SIDEBAR ─ VITALS ════════════════════════════════════════════ -->
+    <aside class="sidebar glass neon-border" id="right-sidebar">
+
+        <div class="sidebar-brand" style="margin-bottom:4px;">
+            <span class="brand-dot" style="background:#7eefc4;box-shadow:0 0 8px #7eefc4;"></span>
+            <span class="brand-text">SYSTEM VITALS</span>
+        </div>
+
+        <div class="vitals-grid">
+
+            <details class="vital-card" open>
+                <summary class="vital-summary">
+                    <span class="vital-label">CPU</span>
+                    <span class="vital-value" id="cpu-val">—</span>
+                </summary>
+                <div class="sparkline-wrap">
+                    <svg class="sparkline" id="cpu-spark" viewBox="0 0 120 36" preserveAspectRatio="none"></svg>
+                </div>
+            </details>
+
+            <details class="vital-card" open>
+                <summary class="vital-summary">
+                    <span class="vital-label">RAM</span>
+                    <span class="vital-value" id="ram-val">—</span>
+                </summary>
+                <div class="sparkline-wrap">
+                    <svg class="sparkline" id="ram-spark" viewBox="0 0 120 36" preserveAspectRatio="none"></svg>
+                </div>
+            </details>
+
+            <details class="vital-card" open>
+                <summary class="vital-summary">
+                    <span class="vital-label">VRAM</span>
+                    <span class="vital-value" id="vram-val">—</span>
+                </summary>
+                <div class="sparkline-wrap">
+                    <svg class="sparkline" id="vram-spark" viewBox="0 0 120 36" preserveAspectRatio="none"></svg>
+                </div>
+            </details>
+
+            <details class="vital-card" open>
+                <summary class="vital-summary">
+                    <span class="vital-label">Neural Core Temp</span>
+                    <span class="vital-value temp-val" id="temp-val">—</span>
+                </summary>
+                <div class="sparkline-wrap">
+                    <svg class="sparkline" id="temp-spark" viewBox="0 0 120 36" preserveAspectRatio="none"></svg>
+                </div>
+            </details>
+
+        </div>
+
+        <!-- Session Stats -->
+        <div class="session-stats glass-inner">
+            <div class="stat-row">
+                <span>Messages</span>
+                <span id="stat-msgs">0</span>
+            </div>
+            <div class="stat-row">
+                <span>Context</span>
+                <span id="stat-ctx">0 / 8192 tk</span>
+            </div>
+            <div class="stat-row">
+                <span>Speed</span>
+                <span id="stat-speed">— tk/s</span>
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
