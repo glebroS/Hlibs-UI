@@ -27,11 +27,11 @@ We bring the power of your local models directly to a beautiful workspace tailor
 
 ##  Key Features
 
-- ** Reasoning Model Support (Chain-of-Thought):** Automatically detects and neatly collapses `<think>` blocks (or other reasoning outputs) from advanced models into a dedicated logic panel. No more cluttered chats!
-- ** Vision Model Ready:** Built-in drag-and-drop capability. Drop your images directly into the chat prompt and let your vision models analyze them instantly.
-- ** Precision Parameter Control:** Tune your generations on the fly. Easily adjust advanced Ollama sampler settings including *Min-P, Mirostat, Seed, Temperature,* and *Top-K*.
-- ** Seamless Session State:** Your chat history is persistently cached locally. Drop off anytime and pick your session up exactly where you left.
-- ** Markdown Export:** Export your valuable chat sessions directly to clean Markdown files with a single click.
+-  Reasoning Model Support (Chain-of-Thought): Automatically detects and neatly collapses `<think>` blocks (or other reasoning outputs) from advanced models into a dedicated logic panel. No more cluttered chats!
+-  Vision Model Ready: Built-in drag-and-drop capability. Drop your images directly into the chat prompt and let your vision models analyze them instantly.
+-  Precision Parameter Control: Tune your generations on the fly. Easily adjust advanced Ollama sampler settings including *Min-P, Mirostat, Seed, Temperature,* and *Top-K*.
+-  Seamless Session State: Your chat history is persistently cached locally. Drop off anytime and pick your session up exactly where you left.
+-  Markdown Export: Export your valuable chat sessions directly to clean Markdown files with a single click.
 
 ---
 
